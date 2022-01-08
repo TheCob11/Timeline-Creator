@@ -1,0 +1,77 @@
+html, body{
+  height: 90%;
+}
+#header{
+  display: flex-block;
+  /* position: relative; */
+}
+#header *{
+  display: inline-flex;
+}
+#title{
+  margin: auto 2%;
+}
+#gglSignIn{
+  float: right;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+#timeline{
+  display: block;
+  position: relative;
+  height: 90%;
+  width: 100%;
+}
+#sidebar{
+  outline: 2px solid;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  transition: .3s;
+}
+#sidebar input{
+  margin-left: 1px;
+}
+#sidebar button{
+  display: block;
+  margin: auto;
+}
+#options{
+  display: none;
+}
+#newPeriodForm{
+  display: none;
+}
+#newPeriodForm h2{
+  text-align: center;
+  margin: auto 0;
+}
+#main{
+  height: 100%;
+  padding: 3px;
+  transition: .3s;
+}
+.timePeriod{
+  /* display: inline-flex; */
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid;
+  background-color: white;
+}
+.timePeriod:hover{
+  outline: 2px solid lightskyblue;
+  cursor: pointer;
+}
+.timePeriod.editing{
+  border: 2px solid lightskyblue;
+  cursor: pointer;
+}
+#timelineContainer{
+  display: flex;
+  position: relative;
+  overflow-x: clip;
+  outline: 2px solid;
+  height: 100%;
+}

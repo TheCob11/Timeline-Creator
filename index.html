@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Timeline Creator</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script src="https://apis.google.com/js/platform.js" async defer>
+
+	</script>
+	<meta name="google-signin-client_id" content="451267258644-itueok65100l9jvjsk4nafc4au0n3nal.apps.googleusercontent.com">
+</head>
+
+<body>
+	<div id="sidebar">
+    <section id="options">
+    </section>
+    <form id="newPeriodForm">
+      <h2 >Edit Time Period</h2><br>
+      <label for="title">Title:</label><br>
+      <input name="title"/><br>
+      <label for="firstYear">Starting Year:</label><br>
+      <input name="firstYear" type="number"/><br>
+      <label for="lastYear">Ending Year:</label><br>
+      <input name="lastYear" type="number"/><br>
+      <label for="description">Description:</label><br>
+      <textarea form="newPeriodForm" name="description"/></textarea><br><br>
+      <button type="button" class="doneButton" name="doneButton">Done</button>
+      <button type="button" class="deleteButton" name="deleteButton">Delete</button>
+    </form>
+  </div>
+  <div id="main">
+  	<div id="header">
+  		<h1 id="title">time</h1>
+      <button class="buttons"   id="openOptions">Options</button>
+      <button class="buttons" id="newPeriodButton"  onclick="periodEdit()">New Period</button>
+  		<div id="gglSignIn" class="g-signin2"   data-onsuccess="onSignIn"></div>
+  	</div>
+    <div id="timelineContainer">
+      <canvas id="timeline"></canvas>
+    </div>
+  </div>
+  <script src="script.js">
+	</script>
+</body>
+
+</html>
