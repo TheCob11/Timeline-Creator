@@ -125,7 +125,6 @@ animate()
 function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.length - 1]) {
   dateRange.periods.forEach((e) => e.elem.classList.remove("editing"))
   currentPeriod.elem.classList.add("editing")
-  document.getElementById("newPeriodButton").disabled = true
   form = document.getElementById("newPeriodForm")
   form.style.display = "initial"
   openSide()
@@ -142,5 +141,5 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["firstYear"].oninput = editYears
   form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
-  form["doneButton"].onclick = (e) => { closeSide(); form.reset(); form.style.display = "none"; document.getElementById("newPeriodButton").disabled = false; currentPeriod.elem.classList.remove("editing") }
+  form["doneButton"].onclick = (e) => { closeSide(); form.reset(); form.style.display = "none";currentPeriod.elem.classList.remove("editing") }
 }
