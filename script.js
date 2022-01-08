@@ -44,7 +44,7 @@ class Period {
   constructor(title, firstYear, lastYear, description = false, height = 10) {
     this.elem = canvas.parentNode.appendChild(document.createElement("p"))
     this.elem.className = "timePeriod"
-    this.elem.onclick = () => periodEdit(this) // make this async or smth itll be super cool
+    this.elem.onclick = () => periodEdit(this)
     this.title = title;
     [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
     this.description = description
@@ -123,7 +123,7 @@ function animate() {
 }
 animate()
 function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.length - 1]) {
-  dateRange.periods.forEach((e)=>e.elem.classList.remove("editing"))
+  dateRange.periods.forEach((e) => e.elem.classList.remove("editing"))
   currentPeriod.elem.classList.add("editing")
   document.getElementById("newPeriodButton").disabled = true
   form = document.getElementById("newPeriodForm")
@@ -135,10 +135,12 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["lastYear"].value = currentPeriod.lastYear;
   form["description"].value = currentPeriod.description;
   form["title"].oninput = (e) => { currentPeriod.title = e.target.value }
-  form["firstYear"].oninput = (e) => {
-    [e.target.firstYear.value, e.target.lastYear.value] = 
+  function editYears() {
+    [form["firstYear"].value, form["lastYear"].value] = form["firstYear"].value > form["lastYear"].value ? [form["lastYear"].value, form["firstYear"].value] : [form["firstYear"].value, form["lastYear"].value];
+    [currentPeriod.firstYear, currentPeriod.lastYear] = [form["firstYear"].value, form["lastYear"].value];
   }
-  form["lastYear"].oninput = (e) => { currentPeriod.lastYear = form["lastYear"].value > form["firstYear"].value ? form["lastYear"].value : form["firstYear"].value }
+  form["firstYear"].oninput = editYears
+  form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
   form["doneButton"].onclick = (e) => { closeSide(); form.reset(); form.style.display = "none"; document.getElementById("newPeriodButton").disabled = false; currentPeriod.elem.classList.remove("editing") }
 }
