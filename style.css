@@ -57,7 +57,7 @@ html, body{
   /* display: inline-flex; */
   position: absolute;
   box-sizing: border-box;
-  border: 1px solid;
+  border: 1.5px solid;
   background-color: white;
 }
 .timePeriod:hover{
@@ -65,7 +65,7 @@ html, body{
   cursor: pointer;
 }
 .timePeriod.editing{
-  border: 2px solid lightskyblue;
+  border: 1.5px solid lightskyblue;
   cursor: pointer;
 }
 #timelineContainer{
