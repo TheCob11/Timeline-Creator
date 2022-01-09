@@ -125,7 +125,7 @@ animate()
 function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.length - 1]) {
   dateRange.periods.forEach((e) => e.elem.classList.remove("editing"))
   currentPeriod.elem.classList.add("editing")
-  form = document.getElementById("newPeriodForm")
+  form = document.getElementById("periodEditForm")
   form.style.display = "initial"
   openSide()
   // console.log(currentPeriod);

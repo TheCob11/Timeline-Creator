@@ -41,10 +41,10 @@ html, body{
 #options{
   display: none;
 }
-#newPeriodForm{
+#periodEditForm{
   display: none;
 }
-#newPeriodForm h2{
+#periodEditForm h2{
   text-align: center;
   margin: auto 0;
 }
