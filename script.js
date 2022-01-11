@@ -44,19 +44,19 @@ class Period {
   constructor(title, firstYear, lastYear, description = false, height = 10) {
     this.elem = canvas.parentNode.appendChild(document.createElement("p"))
     this.elem.className = "timePeriod"
-    this.elem.onclick = () => periodEdit(this)
+    this.elem.onclick = () => this.elem.classList.contains("editing") ? closePeriod(this) : periodEdit(this)
     this.title = title;
-    [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
-    this.description = description
-    this.height = height
+[this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
+this.description = description
+this.height = height
   }
-  draw(x, y, pty) {
-    this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
-    this.elem.style.bottom = y + "px" //fix
-    this.elem.style.left = x + "px"
-    this.elem.style.width = ((this.lastYear - this.firstYear) * pty) + "px"
-    this.elem.style.maxWidth = ((this.lastYear - this.firstYear) * pty) + "px"
-  }
+draw(x, y, pty) {
+  this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
+  this.elem.style.bottom = y + "px" //fix
+  this.elem.style.left = x + "px"
+  this.elem.style.width = ((this.lastYear - this.firstYear) * pty) + "px"
+  this.elem.style.maxWidth = ((this.lastYear - this.firstYear) * pty) + "px"
+}
 }
 class DateRange {
   constructor(firstYear, lastYear, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
@@ -141,5 +141,12 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["firstYear"].oninput = editYears
   form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
-  form["doneButton"].onclick = (e) => { closeSide(); form.reset(); form.style.display = "none";currentPeriod.elem.classList.remove("editing") }
+  form["doneButton"].onclick = () => closePeriod(currentPeriod);
+}
+function closePeriod(period) {
+  closeSide();
+  form = document.getElementById("periodEditForm")
+  form.reset();
+  form.style.display = "none";
+  period.elem.classList.remove("editing");
 }
