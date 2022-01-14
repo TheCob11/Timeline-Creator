@@ -41,22 +41,36 @@ function closeSide() {
 }
 main.addEventListener("transitionend", setSize)
 class Period {
-  constructor(title, firstYear, lastYear, description = false, height = 10) {
+  constructor(title, firstYear, lastYear, description = false) {
     this.elem = canvas.parentNode.appendChild(document.createElement("p"))
     this.elem.className = "timePeriod"
     this.elem.onclick = () => this.elem.classList.contains("editing") ? closePeriod(this) : periodEdit(this)
+    this.elem.style.fontSize = "10px"
     this.title = title;
-[this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
-this.description = description
-this.height = height
+    [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
+    this.description = description
+    this.y = 0
+    this.drawn = false
   }
-draw(x, y, pty) {
-  this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
-  this.elem.style.bottom = y + "px" //fix
-  this.elem.style.left = x + "px"
-  this.elem.style.width = ((this.lastYear - this.firstYear) * pty) + "px"
-  this.elem.style.maxWidth = ((this.lastYear - this.firstYear) * pty) + "px"
-}
+  draw(x, pty) {
+    this.drawn = true
+    this.x = x
+    this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
+    this.elem.style.top = this.y + "px"
+    this.elem.style.left = this.x + "px"
+    this.elem.style.width = ((this.lastYear - this.firstYear) * pty) + "px"
+    this.elem.style.maxWidth = ((this.lastYear - this.firstYear) * pty) + "px"
+    function checkCollision(period1, period2) {
+      if ((period1 != period2 && period2.drawn && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
+        period1.y+=period2.elem.scrollHeight
+      }
+    }
+    dateRange.periods.forEach(e => checkCollision(this, e))
+  }
+  kill() {
+    dateRange.periods.splice(dateRange.periods.indexOf(this), 1)
+    this.elem.remove()
+  }
 }
 class DateRange {
   constructor(firstYear, lastYear, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
@@ -105,7 +119,7 @@ class DateRange {
     scene.stroke();
     if (this.periods != []) { //Draw periods
       let pixelToYear = (((this.marksNum - 1) * sceneW) / this.marksNum) / (this.lastYear - this.firstYear);
-      this.periods.forEach((element, index) => element.draw((element.firstYear - this.firstYear) * pixelToYear + lineMargin, sceneH / 2 - 2 * element.height - (element.height + 2) * index, pixelToYear))
+      this.periods.forEach((element, index) => element.draw((element.firstYear - this.firstYear) * pixelToYear + lineMargin, pixelToYear))
     }
     scene.restore();
   }
@@ -142,6 +156,7 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
   form["doneButton"].onclick = () => closePeriod(currentPeriod);
+  form["deleteButton"].onclick = () => { closePeriod(currentPeriod); currentPeriod.kill() }
 }
 function closePeriod(period) {
   closeSide();
