@@ -58,8 +58,9 @@ class Period {
     this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
     this.elem.style.top = this.y + "px"
     this.elem.style.left = this.x + "px"
-    this.elem.style.width = ((this.lastYear - this.firstYear) * pty) + "px"
-    this.elem.style.maxWidth = ((this.lastYear - this.firstYear) * pty) + "px"
+    this.width = (this.lastYear-this.firstYear)*pty
+    this.elem.style.width = this.width + "px"
+    this.elem.style.textIndent = scene.measureText(this.title).width>this.width || scene.measureText(this.description).width>this.width?this.width+"px each-line":"0"
     function checkCollision(period1, period2) {
       if ((period1 != period2 && period2.drawn && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
         period1.y+=period2.elem.scrollHeight
