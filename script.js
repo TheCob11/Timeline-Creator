@@ -14,7 +14,6 @@ var sceneH = canvas.height;
 var sceneD = Math.sqrt(sceneW ** 2 + sceneH ** 2);
 var translate = canvas.clientHeight % 2 ? 0 : .5;
 function setSize() {
-  // console.log(window.innerWidth, window.innerHeight)
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
   translateY = canvas.clientHeight % 2 ? 0 : .5;
@@ -28,13 +27,10 @@ function setSize() {
 setSize()
 window.onresize = setSize;
 var main = document.getElementById("main")
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
 function openSide() {
   document.getElementById("sidebar").style.width = "30%";
   main.style.marginRight = "30%";
 }
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function closeSide() {
   document.getElementById("sidebar").style.width = "0";
   main.style.marginRight = "0";
@@ -63,7 +59,7 @@ class Period {
     this.elem.style.textIndent = scene.measureText(this.title).width>this.width || scene.measureText(this.description).width>this.width?this.width+"px each-line":"0"
     function checkCollision(period1, period2) {
       if ((period1 != period2 && period2.drawn && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
-        period1.y+=period2.elem.scrollHeight
+        period1.y+=period2.elem.offsetHeight
       }
     }
     dateRange.periods.forEach(e => checkCollision(this, e))
