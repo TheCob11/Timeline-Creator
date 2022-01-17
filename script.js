@@ -153,6 +153,7 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
   form["doneButton"].onclick = () => closePeriod(currentPeriod);
+  canvas.onclick = () => closePeriod(currentPeriod)
   form["deleteButton"].onclick = () => { closePeriod(currentPeriod); currentPeriod.kill() }
 }
 function closePeriod(period) {
