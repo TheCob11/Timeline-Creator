@@ -79,6 +79,9 @@ html, body{
   background-color: white;
   white-space: nowrap;
 }
+.timePeriod.hidden{
+  display: none;
+}
 .timePeriod:hover{
   outline: 2px solid lightskyblue;
   cursor: pointer;

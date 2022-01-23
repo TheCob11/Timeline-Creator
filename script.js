@@ -42,14 +42,14 @@ class Period {
     this.elem.className = "timePeriod"
     this.elem.onclick = () => this.elem.classList.contains("editing") ? closePeriod(this) : periodEdit(this)
     this.elem.style.fontSize = "10px"
+    this.elem.classList.add("hidden")
     this.title = title;
     [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
     this.description = description
     this.y = 0
-    this.drawn = false
   }
   draw(x, pty) {
-    this.drawn = true
+    this.elem.classList.remove("hidden")
     this.x = x
     this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
     this.elem.style.top = this.y + "px"
@@ -58,7 +58,7 @@ class Period {
     this.elem.style.width = this.width + "px"
     this.elem.style.textIndent = scene.measureText(this.title).width>this.width || scene.measureText(this.description).width>this.width?this.width+"px each-line":"0"
     function checkCollision(period1, period2) {
-      if ((period1 != period2 && period2.drawn && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
+      if ((period1 != period2 && !period2.elem.classList.contains("hidden") && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
         period1.y+=period2.elem.offsetHeight
       }
     }
@@ -68,14 +68,20 @@ class Period {
     dateRange.periods.splice(dateRange.periods.indexOf(this), 1)
     this.elem.remove()
   }
+  toJSON() {
+    return {title: this.title, firstYear:this.firstYear, lastYear:this.lastYear, description:this.description}
+  }
+  static deserialize(data){
+    return new Period(...Object.values(data))
+  }
 }
 class DateRange {
   constructor(firstYear=1850, lastYear=1950, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
     this.firstYear = firstYear;
     this.lastYear = lastYear;
+    this.periods = periods
     this.marksNum = marksNum;
     this.step = step;
-    this.periods = periods
     return new Proxy(this, {
       set: function (obj, prop, value) {
         obj[prop] = value
@@ -121,6 +127,16 @@ class DateRange {
   createPeriod(title = "A Time Period", firstYear = Math.floor(Math.random() * (this.lastYear - this.firstYear)) + this.firstYear, lastYear = Math.floor(Math.random() * (this.lastYear - this.firstYear)) + this.firstYear, description = "An example of a time period.") {
     this.periods.push(new Period(title, firstYear, lastYear, description));
     return this.periods
+  }
+  toJSON(){
+    var serialized = this
+    serialized.periods.forEach(e => e=e.toJSON())
+    return serialized
+  }
+  static deserialize(string){
+    var output = JSON.parse(string)
+    output.periods = output.periods.map(e => e=Period.deserialize(e))
+    return new DateRange(...Object.values(output))
   }
 }
 var dateRange = new DateRange()
