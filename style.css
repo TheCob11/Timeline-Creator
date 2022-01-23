@@ -3,7 +3,6 @@ html, body{
 }
 #header{
   display: flex-block;
-  /* position: relative; */
 }
 #header *{
   display: inline-flex;
@@ -38,15 +37,34 @@ html, body{
   display: flex;
   justify-content: center;
 }
-#options{
-  display: none;
-}
 #periodEditForm{
   display: none;
 }
-#periodEditForm h2{
+#periodEditForm h2, #optionsContainer h2{
   text-align: center;
   margin: auto 0;
+}
+#options{
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  width: 60%;
+  height: 80%;
+  top: 10%;
+  left: 20%;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
+  border: 2px solid;
+  box-sizing: border-box;
+}
+#options.open{
+  visibility: initial;
+  opacity: 1;
+}
+#options .doneButton{
+  display: block;
+  margin: auto ;
 }
 #main{
   height: 100%;

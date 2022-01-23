@@ -78,9 +78,7 @@ class DateRange {
     this.periods = periods
     return new Proxy(this, {
       set: function (obj, prop, value) {
-        console.log(obj)
         obj[prop] = value
-        console.log(obj)
         switch (prop) {
           case "firstYear":
           case "lastYear":
@@ -88,7 +86,7 @@ class DateRange {
             obj.step = (obj.lastYear - obj.firstYear) / (obj.marksNum - 1)
             break;
           case "step":
-            obj.marksNum = (obj.lastYear - obj.firstYear) / (obj.step)
+            obj.lastYear = obj.step*(obj.marksNum-1)+obj.firstYear;
             break;
           default:
             break;
@@ -136,7 +134,7 @@ animate()
 function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.length - 1]) {
   dateRange.periods.forEach((e) => e.elem.classList.remove("editing"))
   currentPeriod.elem.classList.add("editing")
-  form = document.getElementById("periodEditForm")
+  var form = document.getElementById("periodEditForm")
   form.style.display = "initial"
   openSide()
   // console.log(currentPeriod);
@@ -162,4 +160,31 @@ function closePeriod(period) {
   form.reset();
   form.style.display = "none";
   period.elem.classList.remove("editing");
+}
+function openOptions() {
+  document.getElementById("options").classList.add("open")
+  document.getElementById("openOptions").onclick = closeOptions;
+  canvas.onclick = closeOptions
+  var form = document.getElementById("optionsForm");
+  form["firstYear"].value = dateRange.firstYear;
+  form["lastYear"].value = dateRange.lastYear;
+  form["step"].value = dateRange.step;
+  // form["marksNum"].value = dateRange.marksNum;
+  form["firstYear"].oninput = e => dateRange.firstYear = parseInt(e.target.value)
+  form["lastYear"].oninput = () => editRange("lastYear")
+  function editRange(item){
+    // var notItem = item=="step"?"marksNum":"step";
+    console.log(form)
+    dateRange[item]=parseInt(form[item].value);
+    form["lastYear"].value = dateRange.lastYear;   
+    form["step"].value = dateRange.step; 
+  }
+  form["step"].oninput = () => editRange("step")
+  // form["marksNum"].oninput = () => editRange("marksNum")
+  form["doneButton"].onclick = closeOptions
+}
+function closeOptions() {
+  // document.getElementById("options").style.visibility="initial"
+  document.getElementById("options").classList.remove("open")
+  document.getElementById("openOptions").onclick = openOptions;
 }

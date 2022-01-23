@@ -13,11 +13,23 @@
 </head>
 
 <body>
+	<div id="options">
+		<h2>Edit Timeline</h2>
+		<form id="optionsForm">
+			<label for="firstYear">Starting Year:</label>
+      <input name="firstYear" type="number"/><br>
+      <label for="lastYear">Ending Year(this will change the interval between years):</label>
+      <input name="lastYear" type="number"/><br>
+      <!-- <label for="marksNum">Number of Year Marks(this may change the interval):</label>
+      <input name="marksNum" type="number"/><br> -->
+      <label for="step">Interval Between Years(this will change the ending year):</label>
+      <input name="step" type="number"/><br>
+      <button type="button" class="doneButton" name="doneButton">Done</button>
+    </form>
+  </div>
 	<div id="sidebar">
-    <section id="options">
-    </section>
     <form id="periodEditForm">
-      <h2 >Edit Time Period</h2><br>
+      <h2>Edit Time Period</h2><br>
       <label for="title">Title:</label><br>
       <input name="title"/><br>
       <label for="firstYear">Starting Year:</label><br>
@@ -35,7 +47,7 @@
   <div id="main">
   	<div id="header">
   		<h1 id="title">time</h1>
-      <button class="buttons"   id="openOptions">Options</button>
+      <button class="buttons"   id="openOptions" onclick="openOptions()">Options</button>
       <button class="buttons" id="newPeriodButton"  onclick="periodEdit()">New Period</button>
   		<!-- <div id="gglSignIn" class="g-signin2"   data-onsuccess="onSignIn"></div> -->
   	</div>
