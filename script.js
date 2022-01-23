@@ -70,7 +70,7 @@ class Period {
   }
 }
 class DateRange {
-  constructor(firstYear, lastYear, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
+  constructor(firstYear=1850, lastYear=1950, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
     this.firstYear = firstYear;
     this.lastYear = lastYear;
     this.marksNum = marksNum;
@@ -123,7 +123,7 @@ class DateRange {
     return this.periods
   }
 }
-var dateRange = new DateRange(1850, 1950)
+var dateRange = new DateRange()
 dateRange.createPeriod()
 function animate() {
   scene.clearRect(0, 0, sceneW, sceneH)
