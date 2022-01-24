@@ -26,7 +26,7 @@
       <input name="marksNum" type="number"/><br> -->
       <label for="step">Interval Between Years(this will change the ending year):</label>
       <input name="step" type="number"/><br>
-      <button type="button" id="saveAsImage" name="saveAsImage" onclick="getImage()">Save timeline as image</button><br>
+      
       <button type="button" class="doneButton" name="doneButton">Done</button>
     </form>
   </div>
@@ -50,8 +50,9 @@
   <div id="main">
   	<div id="header">
   		<h1 id="title">time</h1>
-      <button class="buttons"   id="openOptions" onclick="openOptions()">Options</button>
-      <button class="buttons" id="newPeriodButton"  onclick="periodEdit()">New Period</button>
+      <button id="openOptions" onclick="openOptions()">Options</button>
+      <button id="newPeriodButton"  onclick="periodEdit()">New Period</button>
+      <button id="saveAsImage" name="saveAsImage" onclick="getImage()">Export Timeline to Image</button>
   		<!-- <div id="gglSignIn" class="g-signin2"   data-onsuccess="onSignIn"></div> -->
   	</div>
     <div id="timelineContainer">
