@@ -95,5 +95,6 @@ html, body{
   position: relative;
   overflow-x: clip;
   outline: 2px solid;
+  background-color: white;
   height: 100%;
 }

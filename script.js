@@ -54,12 +54,12 @@ class Period {
     this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
     this.elem.style.top = this.y + "px"
     this.elem.style.left = this.x + "px"
-    this.width = (this.lastYear-this.firstYear)*pty
+    this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
-    this.elem.style.textIndent = scene.measureText(this.title).width>this.width || scene.measureText(this.description).width>this.width?this.width+"px each-line":"0"
+    this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
     function checkCollision(period1, period2) {
-      if ((period1 != period2 && !period2.elem.classList.contains("hidden") && period1.y==period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
-        period1.y+=period2.elem.offsetHeight
+      if ((period1 != period2 && !period2.elem.classList.contains("hidden") && period1.y == period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
+        period1.y += period2.elem.offsetHeight
       }
     }
     dateRange.periods.forEach(e => checkCollision(this, e))
@@ -69,14 +69,14 @@ class Period {
     this.elem.remove()
   }
   toJSON() {
-    return {title: this.title, firstYear:this.firstYear, lastYear:this.lastYear, description:this.description}
+    return { title: this.title, firstYear: this.firstYear, lastYear: this.lastYear, description: this.description }
   }
-  static deserialize(data){
+  static deserialize(data) {
     return new Period(...Object.values(data))
   }
 }
 class DateRange {
-  constructor(firstYear=1850, lastYear=1950, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
+  constructor(firstYear = 1850, lastYear = 1950, periods = [], marksNum = 11, step = (lastYear - firstYear) / (marksNum - 1)) {
     this.firstYear = firstYear;
     this.lastYear = lastYear;
     this.periods = periods
@@ -92,7 +92,7 @@ class DateRange {
             obj.step = (obj.lastYear - obj.firstYear) / (obj.marksNum - 1)
             break;
           case "step":
-            obj.lastYear = obj.step*(obj.marksNum-1)+obj.firstYear;
+            obj.lastYear = obj.step * (obj.marksNum - 1) + obj.firstYear;
             break;
           default:
             break;
@@ -128,19 +128,31 @@ class DateRange {
     this.periods.push(new Period(title, firstYear, lastYear, description));
     return this.periods
   }
-  toJSON(){
+  toJSON() {
     var serialized = this
-    serialized.periods.forEach(e => e=e.toJSON())
+    serialized.periods.forEach(e => e = e.toJSON())
     return serialized
   }
-  static deserialize(string){
+  static deserialize(string) {
     var output = JSON.parse(string)
-    output.periods = output.periods.map(e => e=Period.deserialize(e))
+    output.periods = output.periods.map(e => e = Period.deserialize(e))
     return new DateRange(...Object.values(output))
   }
 }
 var dateRange = new DateRange()
 dateRange.createPeriod()
+function getImage() {
+  domtoimage.toPng(document.getElementById("timelineContainer"))
+    .then(function (dataUrl) {
+      var link = document.createElement("a");
+      link.download = "timeline"
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch(function (error) {
+      console.error('oops, something went wrong!', error);
+    });
+}
 function animate() {
   scene.clearRect(0, 0, sceneW, sceneH)
   dateRange.draw()
@@ -188,12 +200,12 @@ function openOptions() {
   // form["marksNum"].value = dateRange.marksNum;
   form["firstYear"].oninput = e => dateRange.firstYear = parseInt(e.target.value)
   form["lastYear"].oninput = () => editRange("lastYear")
-  function editRange(item){
+  function editRange(item) {
     // var notItem = item=="step"?"marksNum":"step";
     console.log(form)
-    dateRange[item]=parseInt(form[item].value);
-    form["lastYear"].value = dateRange.lastYear;   
-    form["step"].value = dateRange.step; 
+    dateRange[item] = parseInt(form[item].value);
+    form["lastYear"].value = dateRange.lastYear;
+    form["step"].value = dateRange.step;
   }
   form["step"].oninput = () => editRange("step")
   // form["marksNum"].oninput = () => editRange("marksNum")
