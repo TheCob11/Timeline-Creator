@@ -153,6 +153,10 @@ function getImage() {
       console.error('oops, something went wrong!', error);
     });
 }
+function loadRange(range){
+  dateRange.periods.filter(e=>e.kill())
+  dateRange = DateRange.deserialize(range)
+}
 function animate() {
   scene.clearRect(0, 0, sceneW, sceneH)
   dateRange.draw()
