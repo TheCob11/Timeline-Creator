@@ -62,7 +62,7 @@ html, body{
   visibility: initial;
   opacity: 1;
 }
-#options .doneButton{
+#options button{
   display: block;
   margin: auto ;
 }
