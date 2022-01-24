@@ -119,6 +119,7 @@ html, body{
   border: 1.5px solid;
   background-color: white;
   white-space: nowrap;
+  font-size: 10px;
 }
 .timePeriod.hidden{
   display: none;

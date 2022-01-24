@@ -5,6 +5,7 @@
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }*/
+window.addEventListener('beforeunload', (e)=>{e.preventDefault();e.returnValue = '';});
 var canvas = document.getElementById("timeline");
 var scene = canvas.getContext("2d");
 canvas.width = canvas.clientWidth;
@@ -38,10 +39,9 @@ function closeSide() {
 main.addEventListener("transitionend", setSize)
 class Period {
   constructor(title, firstYear, lastYear, description = false) {
-    this.elem = canvas.parentNode.appendChild(document.createElement("p"))
+    this.elem = canvas.parentNode.appendChild(document.createElement("div"))
     this.elem.className = "timePeriod"
     this.elem.onclick = () => this.elem.classList.contains("editing") ? closePeriod(this) : periodEdit(this)
-    this.elem.style.fontSize = "10px"
     this.elem.classList.add("hidden")
     this.title = title;
     [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
@@ -61,6 +61,8 @@ class Period {
     this.elem.style.left = this.x + "px"
     this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
+    scene.save()
+    scene.font = window.getComputedStyle(this.elem).fontSize +" Verdana"
     this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
     dateRange.periods.forEach(e=>this.checkCollision(e))
   }
