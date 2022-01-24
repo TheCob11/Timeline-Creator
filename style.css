@@ -1,14 +1,40 @@
 html, body{
   height: 90%;
+  background-color: white;
 }
 #header{
-  display: flex-block;
+  display: flex;
+  flex-direction: row;
 }
-#header *{
-  display: inline-flex;
+#header *:not(.saveOption, #saveM){
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  align-self: stretch;
+  margin: 0;
+  border: 2px solid;
+  background-color: white;
+  transition: .3s;
 }
-#title{
-  margin: auto 2%;
+#header button:hover{
+  background-color: lightskyblue;
+}
+#saveMContainer{
+  position: relative;
+  display: inline-block;
+}
+#saveM{
+  position: relative;
+  display: inline-block;
+}
+.saveOption{
+  display: none;
+  position: absolute;
+}
+#saveMContainer:hover .saveOption{
+  display: block;
 }
 #gglSignIn{
   float: right;
