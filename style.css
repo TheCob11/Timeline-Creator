@@ -6,7 +6,7 @@ html, body{
   display: flex;
   flex-direction: row;
 }
-#header *:not(.saveOption, #saveM){
+#header > *, #header button{
   position: relative;
   display: flex;
   justify-content: center;
@@ -24,17 +24,22 @@ html, body{
 #saveMContainer{
   position: relative;
   display: inline-block;
+  text-align: center;
+  transition: .3s;
 }
 #saveM{
-  position: relative;
-  display: inline-block;
-}
-.saveOption{
   display: none;
   position: absolute;
+  transition: .3s;
 }
-#saveMContainer:hover .saveOption{
+.saveOption{
   display: block;
+  width: 100%;
+}
+#saveMContainer:hover #saveM{
+  display: block;
+  z-index: 2;
+  /* top: 100%; */
 }
 #gglSignIn{
   float: right;
@@ -56,17 +61,17 @@ html, body{
   width: 0;
   transition: .3s;
 }
-#sidebar input{
+#sidebar > input{
   margin-left: 1px;
 }
-#sidebar #buttons{
+#sidebar > #buttons{
   display: flex;
   justify-content: center;
 }
 #periodEditForm{
   display: none;
 }
-#periodEditForm h2, #optionsContainer h2{
+#periodEditForm > h2, #optionsContainer > h2{
   text-align: center;
   margin: auto 0;
 }
@@ -88,7 +93,7 @@ html, body{
   visibility: initial;
   opacity: 1;
 }
-#options button{
+#options > button{
   display: block;
   margin: auto ;
 }
