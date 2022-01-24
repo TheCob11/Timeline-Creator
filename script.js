@@ -64,9 +64,9 @@ class Period {
     this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
     dateRange.periods.forEach(e=>this.checkCollision(e))
   }
-  kill() {
-    dateRange.periods.splice(dateRange.periods.indexOf(this), 1)
-    this.elem.remove()
+  async kill() {
+    await this.elem.remove()
+    await dateRange.periods.splice(dateRange.periods.indexOf(this), 1)
   }
   toJSON() {
     return { title: this.title, firstYear: this.firstYear, lastYear: this.lastYear, description: this.description }
@@ -85,6 +85,7 @@ class DateRange {
     return new Proxy(this, {
       set: function (obj, prop, value) {
         obj[prop] = value
+        console.log(obj+" "+prop+" "+value)
         switch (prop) {
           case "firstYear":
           case "lastYear":
@@ -181,7 +182,6 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["lastYear"].oninput = editYears
   form["description"].oninput = (e) => { currentPeriod.description = e.target.value }
   form["doneButton"].onclick = () => closePeriod(currentPeriod);
-  canvas.onclick = () => closePeriod(currentPeriod)
   form["deleteButton"].onclick = () => { closePeriod(currentPeriod); currentPeriod.kill() }
 }
 function closePeriod(period) {
@@ -190,11 +190,11 @@ function closePeriod(period) {
   form.reset();
   form.style.display = "none";
   period.elem.classList.remove("editing");
+  window.setTimeout(()=>dateRange.periods.forEach(e=>e.y=0),300)
 }
 function openOptions() {
   document.getElementById("options").classList.add("open")
   document.getElementById("openOptions").onclick = closeOptions;
-  canvas.onclick = closeOptions
   var form = document.getElementById("optionsForm");
   form["firstYear"].value = dateRange.firstYear;
   form["lastYear"].value = dateRange.lastYear;
@@ -204,7 +204,7 @@ function openOptions() {
   form["lastYear"].oninput = () => editRange("lastYear")
   function editRange(item) {
     // var notItem = item=="step"?"marksNum":"step";
-    console.log(form)
+    // console.log(form)
     dateRange[item] = parseInt(form[item].value);
     form["lastYear"].value = dateRange.lastYear;
     form["step"].value = dateRange.step;
@@ -217,4 +217,12 @@ function closeOptions() {
   // document.getElementById("options").style.visibility="initial"
   document.getElementById("options").classList.remove("open")
   document.getElementById("openOptions").onclick = openOptions;
+}
+canvas.onclick = function(){
+  if(document.getElementById("options").classList.contains("open")){
+    closeOptions()
+  }
+  if(document.querySelector(".timePeriod.editing")){
+    closePeriod(dateRange.periods.find(e=>e.elem.classList.contains("editing")))
+  }
 }
