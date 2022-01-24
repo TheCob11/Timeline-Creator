@@ -48,6 +48,11 @@ class Period {
     this.description = description
     this.y = 0
   }
+  checkCollision(period2) {
+    if ((this != period2 && !period2.elem.classList.contains("hidden") && this.y == period2.y) && (((period2.elem.offsetLeft >= this.x) && (period2.elem.offsetLeft <= this.x + this.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= this.x + this.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= this.x)))) {
+      this.y += period2.elem.offsetHeight
+    }
+  }
   draw(x, pty) {
     this.elem.classList.remove("hidden")
     this.x = x
@@ -57,12 +62,7 @@ class Period {
     this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
     this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
-    function checkCollision(period1, period2) {
-      if ((period1 != period2 && !period2.elem.classList.contains("hidden") && period1.y == period2.y) && (((period2.elem.offsetLeft >= x) && (period2.elem.offsetLeft <= x + period1.elem.scrollWidth)) || ((period2.elem.offsetLeft + period2.elem.scrollWidth <= x + period1.elem.scrollWidth) && (period2.elem.offsetLeft + period2.elem.scrollWidth >= x)))) {
-        period1.y += period2.elem.offsetHeight
-      }
-    }
-    dateRange.periods.forEach(e => checkCollision(this, e))
+    dateRange.periods.forEach(e=>this.checkCollision(e))
   }
   kill() {
     dateRange.periods.splice(dateRange.periods.indexOf(this), 1)
@@ -142,19 +142,17 @@ class DateRange {
 var dateRange = new DateRange()
 dateRange.createPeriod()
 function getImage() {
-  domtoimage.toPng(document.getElementById("timelineContainer"))
-    .then(function (dataUrl) {
-      var link = document.createElement("a");
-      link.download = "timeline"
-      link.href = dataUrl;
-      link.click();
-    })
-    .catch(function (error) {
-      console.error('oops, something went wrong!', error);
-    });
+  domtoimage.toPng(document.getElementById("timelineContainer")).then(function (dataUrl) {
+    var link = document.createElement("a");
+    link.download = "timeline"
+    link.href = dataUrl;
+    link.click();
+  }).catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  });
 }
-function loadRange(range){
-  dateRange.periods.filter(e=>e.kill())
+function loadRange(range) {
+  dateRange.periods.filter(e => e.kill())
   dateRange = DateRange.deserialize(range)
 }
 function animate() {
