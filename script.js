@@ -5,7 +5,7 @@
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }*/
-window.addEventListener('beforeunload', (e)=>{e.preventDefault();e.returnValue = '';});
+window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; });
 var canvas = document.getElementById("timeline");
 var scene = canvas.getContext("2d");
 canvas.width = canvas.clientWidth;
@@ -62,9 +62,9 @@ class Period {
     this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
     scene.save()
-    scene.font = window.getComputedStyle(this.elem).fontSize +" Verdana"
+    scene.font = window.getComputedStyle(this.elem).fontSize + " Verdana"
     this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
-    dateRange.periods.forEach(e=>this.checkCollision(e))
+    dateRange.periods.forEach(e => this.checkCollision(e))
   }
   async kill() {
     await this.elem.remove()
@@ -87,7 +87,7 @@ class DateRange {
     return new Proxy(this, {
       set: function (obj, prop, value) {
         obj[prop] = value
-        console.log(obj+" "+prop+" "+value)
+        console.log(obj + " " + prop + " " + value)
         switch (prop) {
           case "firstYear":
           case "lastYear":
@@ -186,16 +186,21 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["doneButton"].onclick = () => closePeriod(currentPeriod);
   form["deleteButton"].onclick = () => { closePeriod(currentPeriod); currentPeriod.kill() }
 }
+function popupTextSave() {
+  document.getElementById("textSave").style.display="initial";
+  document.getElementById("popup").classList.add("open")
+}
 function closePeriod(period) {
   closeSide();
   form = document.getElementById("periodEditForm")
   form.reset();
   form.style.display = "none";
   period.elem.classList.remove("editing");
-  window.setTimeout(()=>dateRange.periods.forEach(e=>e.y=0),300)
+  window.setTimeout(() => dateRange.periods.forEach(e => e.y = 0), 300)
 }
 function openOptions() {
-  document.getElementById("options").classList.add("open")
+  document.getElementById("options").style.display = "initial";
+  document.getElementById("popup").classList.add("open")
   document.getElementById("openOptions").onclick = closeOptions;
   var form = document.getElementById("optionsForm");
   form["firstYear"].value = dateRange.firstYear;
@@ -216,15 +221,17 @@ function openOptions() {
   form["doneButton"].onclick = closeOptions
 }
 function closeOptions() {
-  // document.getElementById("options").style.visibility="initial"
-  document.getElementById("options").classList.remove("open")
+  document.getElementById("popup").classList.remove("open");
+  document.getElementById("options").style.display = "none";
+  document.getElementById("textSave").style.display = "none";
   document.getElementById("openOptions").onclick = openOptions;
 }
-canvas.onclick = function(){
-  if(document.getElementById("options").classList.contains("open")){
+function closeEverything(e) {
+  if (document.getElementById("popup").classList.contains("open")) {
     closeOptions()
   }
-  if(document.querySelector(".timePeriod.editing")){
-    closePeriod(dateRange.periods.find(e=>e.elem.classList.contains("editing")))
+  if (document.querySelector(".timePeriod.editing")) {
+    closePeriod(dateRange.periods.find(e => e.elem.classList.contains("editing")))
   }
 }
+canvas.onclick = closeEverything
