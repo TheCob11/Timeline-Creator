@@ -188,11 +188,23 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
 }
 function popupTextSave() {
   document.getElementById("textSave").style.display="initial";
+  document.getElementById("options").style.display="none";
   document.getElementById("popup").classList.add("open")
+  document.getElementById("textSaveText").innerHTML = JSON.stringify(dateRange)
+}
+function copySaveText() {
+  document.getElementById("copySaveTextButton").innerHTML = "Copying..."
+  navigator.clipboard.writeText(JSON.stringify(dateRange)).then(()=>document.getElementById("copySaveTextButton").innerHTML = "Copied to Clipboard")
+}
+function downloadSaveText() {
+  var link = document.createElement("a");
+  link.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dateRange));
+  link.download = "timeline.json"
+  link.click();
 }
 function closePeriod(period) {
   closeSide();
-  form = document.getElementById("periodEditForm")
+  form = document.getElementById("periodEditForm");
   form.reset();
   form.style.display = "none";
   period.elem.classList.remove("editing");
@@ -200,6 +212,7 @@ function closePeriod(period) {
 }
 function openOptions() {
   document.getElementById("options").style.display = "initial";
+  document.getElementById("textSave").style.display = "none";
   document.getElementById("popup").classList.add("open")
   document.getElementById("openOptions").onclick = closeOptions;
   var form = document.getElementById("optionsForm");

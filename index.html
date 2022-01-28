@@ -33,8 +33,11 @@
     </form>
   </section>
   <section id="textSave">
-    <h2>Save Timeline as Text</h2>
-    <p id="textSaveText">work in progress</p>
+    <h2>Save Timeline as JSON Text</h2>
+    <textarea readonly id="textSaveText">work in progress</textarea>
+    <button class="doneButton" onclick="closeOptions()">Done</button>
+    <button id="copySaveTextButton" onclick="copySaveText()">Copy to Clipboard</button>
+    <button id="downloadSaveTextButton" onclick="downloadSaveText()">Download</button>
   </section>
   </div>
 	<div id="sidebar">
@@ -58,10 +61,11 @@
   	<div id="header">
   		<h1 id="title">time</h1>
       <div id="saveMContainer">
-        <p id="openSaveM">Save</p>
+        <p id="openSaveM">File</p>
         <div id="saveM">
           <button class="saveOption" id="exportButton" onclick="getImage()">Export Timeline to Image</button>
           <button class="saveOption" id="saveButton" onclick="popupTextSave()">Save as text</button>
+          <!-- <button class="saveOption" id="loadButton" onclick="popupTextLoad()">Load from text</button> -->
         </div>
       </div>
       <button id="openOptions" onclick="openOptions()">Options</button>

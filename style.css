@@ -9,7 +9,7 @@ html, body{
 #header h1#title{
   border: none;
 }
-#header button:hover, #saveMContainer:hover{
+#header button:hover, #header #saveMContainer:hover{
   background-color: lightskyblue;
 }
 #header > :not(.g-signin2), #header button{
@@ -39,11 +39,14 @@ html, body{
   width: 100%;
   height: 100%;
   transition: .3s;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 .saveOption{
   display: flex;
   width: 100%;
-  height: 50%;
+  box-sizing: border-box;
 }
 #saveMContainer:hover #saveM{
   visibility: initial;
@@ -88,6 +91,7 @@ html, body{
 #popup{
   position: absolute;
   background-color: white;
+  text-align: center;
   z-index: 3;
   width: 60%;
   height: 80%;
@@ -103,12 +107,18 @@ html, body{
   visibility: initial;
   opacity: 1;
 }
-#popup button{
+#options button{
   display: block;
   margin: auto ;
 }
 #popup section{
   display: none;
+}
+#textSaveText{
+  width: 99%;
+  height: 80%;
+  max-width: 99%;
+  max-height: 80%;
 }
 #main{
   height: 100%;
