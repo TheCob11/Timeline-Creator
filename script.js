@@ -62,8 +62,9 @@ class Period {
     this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
     scene.save()
-    scene.font = window.getComputedStyle(this.elem).fontSize + " Verdana"
+    scene.font = window.getComputedStyle(this.elem).font;
     this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
+    scene.restore()
     dateRange.periods.forEach(e => this.checkCollision(e))
   }
   async kill() {
@@ -144,20 +145,6 @@ class DateRange {
 }
 var dateRange = new DateRange()
 dateRange.createPeriod()
-function getImage() {
-  domtoimage.toPng(document.getElementById("timelineContainer")).then(function (dataUrl) {
-    var link = document.createElement("a");
-    link.download = "timeline"
-    link.href = dataUrl;
-    link.click();
-  }).catch(function (error) {
-    console.error('oops, something went wrong!', error);
-  });
-}
-function loadRange(range) {
-  dateRange.periods.filter(e => e.kill())
-  dateRange = DateRange.deserialize(range)
-}
 function animate() {
   scene.clearRect(0, 0, sceneW, sceneH)
   dateRange.draw()
@@ -186,21 +173,62 @@ function periodEdit(currentPeriod = dateRange.createPeriod()[dateRange.periods.l
   form["doneButton"].onclick = () => closePeriod(currentPeriod);
   form["deleteButton"].onclick = () => { closePeriod(currentPeriod); currentPeriod.kill() }
 }
+function getImage() {
+  domtoimage.toPng(document.getElementById("timelineContainer")).then(function (dataUrl) {
+    var link = document.createElement("a");
+    link.download = "timeline"
+    link.href = dataUrl;
+    link.click();
+  }).catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  });
+}
 function popupTextSave() {
-  document.getElementById("textSave").style.display="initial";
-  document.getElementById("options").style.display="none";
+  for (i of document.querySelectorAll("#popup section")) { i.classList.remove("open") }
+  document.getElementById("textSave").classList.add("open")
   document.getElementById("popup").classList.add("open")
   document.getElementById("textSaveText").innerHTML = JSON.stringify(dateRange)
 }
 function copySaveText() {
   document.getElementById("copySaveTextButton").innerHTML = "Copying..."
-  navigator.clipboard.writeText(JSON.stringify(dateRange)).then(()=>document.getElementById("copySaveTextButton").innerHTML = "Copied to Clipboard")
+  navigator.clipboard.writeText(JSON.stringify(dateRange)).then(() => document.getElementById("copySaveTextButton").innerHTML = "Copied to Clipboard")
+}
+function pasteLoadText() {
+  if(!confirm("This will replace the current text. Are you sure you want to paste?")){return}
+  document.getElementById("pasteLoadTextButton").innerHTML = "Pasting..."
+  navigator.clipboard.readText(dateRange).then((e) => { document.getElementById("textLoadText").value = e; document.getElementById("pasteLoadTextButton").innerHTML = "Paste from Clipboard" })
+}
+function cancelUpload() {
+  if (document.getElementById("textLoadText").value != JSON.stringify(dateRange) && confirm("The current text is not the same as the current timeline. Are you sure you want to cancel?")
+  ) {
+    closeOptions()
+  }
 }
 function downloadSaveText() {
   var link = document.createElement("a");
   link.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dateRange));
   link.download = "timeline.json"
   link.click();
+}
+function uploadLoadText(){
+  if(!confirm("This will replace the current text. Are you sure you want to upload?")){document.getElementById("uploadLoadText").value="";return}
+  document.getElementById("uploadLoadTextButton").innerHTML = "Uploading..."
+  var file = document.getElementById("uploadLoadText").files[0]
+  if(file.type=="application/json"){
+    document.getElementById("uploadLoadText").files[0].text().then(e => document.getElementById("textLoadText").value=e)
+  }else{
+    alert("Please upload a JSON file")
+  }
+  document.getElementById("uploadLoadText").value=""
+  document.getElementById("uploadLoadTextButton").innerHTML = "Upload JSON File"
+}
+function loadRange(range) {
+  dateRange.periods.filter(e => e.kill())
+  dateRange = DateRange.deserialize(range)
+}
+function loadTimeline() {
+  if(!confirm("This will replace your current timeline. All unsaved data will be lost. Are you sure you want to load?")){return}
+  loadRange(document.getElementById("textLoadText").value)  
 }
 function closePeriod(period) {
   closeSide();
@@ -211,8 +239,8 @@ function closePeriod(period) {
   window.setTimeout(() => dateRange.periods.forEach(e => e.y = 0), 300)
 }
 function openOptions() {
-  document.getElementById("options").style.display = "initial";
-  document.getElementById("textSave").style.display = "none";
+  for (i of document.querySelectorAll("#popup section")) { i.classList.remove("open") }
+  document.getElementById("options").classList.add("open")
   document.getElementById("popup").classList.add("open")
   document.getElementById("openOptions").onclick = closeOptions;
   var form = document.getElementById("optionsForm");
@@ -235,8 +263,7 @@ function openOptions() {
 }
 function closeOptions() {
   document.getElementById("popup").classList.remove("open");
-  document.getElementById("options").style.display = "none";
-  document.getElementById("textSave").style.display = "none";
+  for (i of document.querySelectorAll("#popup section")) { i.classList.remove("open") }
   document.getElementById("openOptions").onclick = openOptions;
 }
 function closeEverything(e) {
@@ -248,3 +275,9 @@ function closeEverything(e) {
   }
 }
 canvas.onclick = closeEverything
+document.getElementById("title").onclick = closeEverything
+document.onkeydown = function (event) {
+  if (event.keyCode == 27) {
+    closeEverything()
+  }
+}

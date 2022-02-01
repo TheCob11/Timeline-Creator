@@ -20,24 +20,29 @@
 		<section id="options">
 			<h2>Edit Timeline</h2>
 			<form id="optionsForm">
-				<label for="firstYear">Starting Year(this will change the interval between years):</label>
-      <input name="firstYear" type="number"/><br>
-      <label for="lastYear">Ending Year(this will change the interval between years):</label>
-      <input name="lastYear" type="number"/><br>
+				<label for="firstYear">Starting Year(this will change the interval between years):<input name="firstYear" type="number"/></label><br>
+      <label for="lastYear">Ending Year(this will change the interval between years):<input name="lastYear" type="number"/></label><br>
       <!-- <label for="marksNum">Number of Year Marks(this may change the interval):</label>
       <input name="marksNum" type="number"/><br> -->
-      <label for="step">Interval Between Years(this will change the ending year):</label>
-      <input name="step" type="number"/><br>
-      
+      <label for="step">Interval Between Years(this will change the ending year):      <input name="step" type="number"/></label><br>
       <button type="button" class="doneButton" name="doneButton">Done</button>
     </form>
   </section>
   <section id="textSave">
     <h2>Save Timeline as JSON Text</h2>
-    <textarea readonly id="textSaveText">work in progress</textarea>
-    <button class="doneButton" onclick="closeOptions()">Done</button>
+    <div id="textSaveTextContainer" class="JSONIOContainer"><textarea readonly id="textSaveText" class="JSONIO">work in progress</textarea></div>
     <button id="copySaveTextButton" onclick="copySaveText()">Copy to Clipboard</button>
     <button id="downloadSaveTextButton" onclick="downloadSaveText()">Download</button>
+    <button class="doneButton" onclick="closeOptions()">Done</button>
+  </section>
+  <section id="textLoad">
+    <h2>Load Timeline from JSON</h2>
+    <div id="textLoadTextContainer" class="JSONIOContainer"><textarea id="textLoadText" class="JSONIO">Input the text here, or select one of the options below</textarea></div>
+    <input type="file" id="uploadLoadText" accept=".JSON" onchange="uploadLoadText()"></input>
+    <button id="uploadLoadTextButton" onclick="document.getElementById('uploadLoadText').click()">Upload JSON File</button>
+    <button id="pasteLoadTextButton" onclick="pasteLoadText()">Paste from Clipboard</button>
+    <button id="loadTimelineButton" onclick="loadTimeline()">Load!</button>
+    <button class="doneButton" onclick="cancelUpload()">Done</button>
   </section>
   </div>
 	<div id="sidebar">

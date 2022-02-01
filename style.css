@@ -9,28 +9,22 @@ html, body{
 #header h1#title{
   border: none;
 }
-#header button:hover, #header #saveMContainer:hover{
+button:hover, #header #saveMContainer:hover{
   background-color: lightskyblue;
 }
-#header > :not(.g-signin2), #header button{
+#header > :not(div), #header button, #saveMContainer{
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
   align-self: stretch;
+}
+button, #saveMContainer{
   margin: 0;
-  border: 2px solid;
   background-color: white;
   transition: .3s;
-}
-#saveMContainer{
-  position: relative;
-  display: flex-block;
-  justify-items: center;
-  align-items: center;
-  text-align: center;
-  transition: .3s;
+  border: 2px solid;
 }
 #saveM{
   visibility: hidden;
@@ -78,8 +72,7 @@ html, body{
   margin-left: 1px;
 }
 #sidebar #buttons{
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 #periodEditForm{
   display: none;
@@ -107,18 +100,37 @@ html, body{
   visibility: initial;
   opacity: 1;
 }
+#popup section{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#popup form{
+  display: contents;
+}
 #options button{
   display: block;
   margin: auto ;
 }
-#popup section{
+#popup section:not(.open){
   display: none;
 }
-#textSaveText{
-  width: 99%;
-  height: 80%;
-  max-width: 99%;
-  max-height: 80%;
+.JSONIOContainer{
+  width: 100%;
+  height: 75%;
+  max-width: 100%;
+  max-height: 75%;
+  display: block;
+  text-align: left;
+}
+.JSONIO{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+#uploadLoadText{
+  display: none;
 }
 #main{
   height: 100%;
