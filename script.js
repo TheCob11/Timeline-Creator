@@ -199,8 +199,10 @@ function pasteLoadText() {
   navigator.clipboard.readText(dateRange).then((e) => { document.getElementById("textLoadText").value = e; document.getElementById("pasteLoadTextButton").innerHTML = "Paste from Clipboard" })
 }
 function cancelUpload() {
-  if (document.getElementById("textLoadText").value != JSON.stringify(dateRange) && confirm("The current text is not the same as the current timeline. Are you sure you want to cancel?")
+  if (document.getElementById("textLoadText").value != JSON.stringify(dateRange) && !confirm("The current text is not the same as the current timeline. Are you sure you want to cancel?")
   ) {
+    return
+  }else{
     closeOptions()
   }
 }
@@ -222,9 +224,9 @@ function uploadLoadText(){
   document.getElementById("uploadLoadText").value=""
   document.getElementById("uploadLoadTextButton").innerHTML = "Upload JSON File"
 }
-function loadRange(range) {
-  dateRange.periods.filter(e => e.kill())
-  dateRange = DateRange.deserialize(range)
+async function loadRange(rangeString) {
+  await dateRange.periods.filter(e => e.kill())
+  dateRange = DateRange.deserialize(rangeString)
 }
 function loadTimeline() {
   if(!confirm("This will replace your current timeline. All unsaved data will be lost. Are you sure you want to load?")){return}
