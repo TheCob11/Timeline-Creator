@@ -189,6 +189,11 @@ function popupTextSave() {
   document.getElementById("popup").classList.add("open")
   document.getElementById("textSaveText").innerHTML = JSON.stringify(dateRange)
 }
+function popupTextLoad() {
+  for (i of document.querySelectorAll("#popup section")) {i.classList.remove("open")}
+  document.getElementById("textLoad").classList.add("open")
+  document.getElementById("popup").classList.add("open")
+}
 function copySaveText() {
   document.getElementById("copySaveTextButton").innerHTML = "Copying..."
   navigator.clipboard.writeText(JSON.stringify(dateRange)).then(() => document.getElementById("copySaveTextButton").innerHTML = "Copied to Clipboard")
