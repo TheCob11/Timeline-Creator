@@ -6,13 +6,10 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Timeline Creator</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js">
 	</script>
-	<script src="https://apis.google.com/js/platform.js" async defer>
-
-	</script>
-	<meta name="google-signin-client_id" content="451267258644-itueok65100l9jvjsk4nafc4au0n3nal.apps.googleusercontent.com">
+<!-- 	<script src="https://accounts.google.com/gsi/client" async defer></script>
+ --> 
 </head>
 
 <body>
@@ -75,8 +72,12 @@
       </div>
       <button id="openOptions" onclick="openOptions()">Options</button>
       <button id="newPeriodButton"  onclick="periodEdit()">New Period</button>
-  		<!-- <div id="gglSignIn" class="g-signin2"   data-onsuccess="onSignIn"></div> -->
-  	</div>
+<!--     <div id="g_id_onload"
+         data-client_id="451267258644-itueok65100l9jvjsk4nafc4au0n3nal.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" id="gglSignIn" data-type="standard"></div>
+ -->	  	</div>
     <div id="timelineContainer">
       <canvas id="timeline"></canvas>
     </div>

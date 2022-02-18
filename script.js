@@ -1,10 +1,11 @@
-/*function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}*/
+// async function handleCredentialResponse(googleUser) {
+//   var profile = await jwtDecrypt(googleUser.credential);
+//   console.log(profile);
+//   console.log('ID: ' + profile.sub());
+//   console.log('Name: ' + profile.name);
+//   console.log('Image URL: ' + profile.picture);
+//   console.log('Email: ' + profile.email); // This is null if the 'email' scope is not present.
+// }
 window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; });
 var canvas = document.getElementById("timeline");
 var scene = canvas.getContext("2d");

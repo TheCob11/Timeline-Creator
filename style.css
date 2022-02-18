@@ -52,6 +52,7 @@ button, #saveMContainer{
   float: right;
   margin-top: auto;
   margin-bottom: auto;
+  display: none;
 }
 #timeline{
   display: block;
