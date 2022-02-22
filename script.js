@@ -44,6 +44,7 @@ class Period {
     this.elem.className = "timePeriod"
     this.elem.onclick = () => this.elem.classList.contains("editing") ? closePeriod(this) : periodEdit(this)
     this.elem.classList.add("hidden")
+    this.elem.text = this.elem.appendChild(document.createElement("span"))
     this.title = title;
     [this.firstYear, this.lastYear] = firstYear < lastYear ? [firstYear, lastYear] : [lastYear, firstYear]
     this.description = description
@@ -57,14 +58,14 @@ class Period {
   draw(x, pty) {
     this.elem.classList.remove("hidden")
     this.x = x
-    this.elem.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
+    this.elem.text.innerHTML = "<b>" + this.title + "</b>" + (this.description ? "<br>" + this.description : "")
     this.elem.style.top = this.y + "px"
     this.elem.style.left = this.x + "px"
     this.width = (this.lastYear - this.firstYear) * pty
     this.elem.style.width = this.width + "px"
     scene.save()
     scene.font = window.getComputedStyle(this.elem).font;
-    this.elem.style.textIndent = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? this.width + "px each-line" : "0"
+    this.elem.childNodes[0].style.paddingLeft = scene.measureText(this.title).width > this.width || scene.measureText(this.description).width > this.width ? Math.round(this.width) + "px" : "0"
     scene.restore()
     dateRange.periods.forEach(e => this.checkCollision(e))
   }
@@ -89,7 +90,7 @@ class DateRange {
     return new Proxy(this, {
       set: function (obj, prop, value) {
         obj[prop] = value
-        console.log(obj + " " + prop + " " + value)
+        // console.log(obj + " " + prop + " " + value)
         switch (prop) {
           case "firstYear":
           case "lastYear":

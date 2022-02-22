@@ -158,6 +158,10 @@ button, #saveMContainer{
   border: 1.5px solid lightskyblue;
   cursor: pointer;
 }
+.timePeriod > span{
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
 #timelineContainer{
   display: flex;
   position: relative;
