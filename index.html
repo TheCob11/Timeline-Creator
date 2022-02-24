@@ -67,8 +67,9 @@
         <p id="openSaveM">File</p>
         <div id="saveM">
           <button class="saveOption" id="exportButton" onclick="getImage()">Export Timeline to Image</button>
-          <button class="saveOption" id="saveButton" onclick="popupTextSave()">Save timeline</button>
-          <button class="saveOption" id="loadButton" onclick="popupTextLoad()">Load timeline</button>
+          <button class="saveOption" id="printButton" onclick='domtoimage.toPng(document.getElementById("timelineContainer"), ).then(e=>printJS(e,"image"))'>Print Timeline</button>
+          <button class="saveOption" id="saveButton" onclick="popupTextSave()">Save Timeline</button>
+          <button class="saveOption" id="loadButton" onclick="popupTextLoad()">Load Timeline</button>
         </div>
       </div>
       <button id="openOptions" onclick="openOptions()">Options</button>
