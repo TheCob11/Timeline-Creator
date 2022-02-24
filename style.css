@@ -26,6 +26,9 @@ button, #saveMContainer{
   transition: .3s;
   border: 2px solid;
 }
+#header > *{
+  border-bottom: 0;
+}
 #saveM{
   visibility: hidden;
   opacity: 0;
@@ -166,7 +169,8 @@ button, #saveMContainer{
   display: flex;
   position: relative;
   overflow-x: clip;
-  outline: 2px solid;
+  border: 2px solid;
+  box-sizing: border-box;
   background-color: white;
   height: 100%;
 }
